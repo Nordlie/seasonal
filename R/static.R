@@ -68,7 +68,7 @@ static <- function(x, coef = FALSE, x11.filter = FALSE, test = TRUE,
     stop("static does not work with the 'list' argument in seas")
   }
 
-  lc$regression.variables <- x$model$regression$variables
+  lc$regression.variables <- unique(x$model$regression$variables)
   lc$arima.model <- x$model$arima$model
 
   # Turn off outomatic procedures:
