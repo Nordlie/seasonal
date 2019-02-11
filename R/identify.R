@@ -1,15 +1,15 @@
 #' Manually Identify Outliers
-#' 
+#'
 #' Select or deselect outliers by point and click. To quit and return the call, press
 #' ESC. Click several times to loop through different outlier types.
-#' 
+#'
 #' @param x      an object of class \code{"seas"}.
 #' @param type   character vector, types of outlier to loop through.
 #' @param ...    unused, for compatibility with the generic function.
-#'   
+#'
 #' @return an object of class \code{"seas"}, containing the static call of the
 #'   selected model.
-#'   
+#'
 #' @export
 #' @examples
 #' \dontrun{
@@ -18,7 +18,7 @@
 #' }
 identify.seas <- function(x, type = c("ao", "tc", "ls"), ...){
   f <- frequency(final(x))
-  
+
   repeat{
     print(summary(x))
     plot(x, main = "click several times to loop through different outlier types")
@@ -34,7 +34,7 @@ identify.seas <- function(x, type = c("ao", "tc", "ls"), ...){
       ol.sel <- sc$regression.variables[sc$regression.variables  %in% outlier(x, full = TRUE)[id.select]]
       ol.pos <- which(type %in% substr(ol.sel, start = 1, stop = 2))
       if (ol.pos == length(type)){
-        sc$regression.variables <- 
+        sc$regression.variables <-
           sc$regression.variables[!sc$regression.variables  %in% outlier(x, full = TRUE)[id.select]]
       } else {
         ol.mod <- gsub(type[ol.pos], type[ol.pos + 1], ol.sel)

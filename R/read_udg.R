@@ -1,6 +1,6 @@
 read_udg <- function(file){
   # read and parse a .udg file
-  # 
+  #
   # file  full path without file ending
   #
   # return a named character vector with some statistics

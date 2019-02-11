@@ -1,5 +1,5 @@
 deparse_spc <- function(x){
-  # deparse a single spec from a spclist 
+  # deparse a single spec from a spclist
   #
   # x   list element in a spclist
   #
@@ -9,7 +9,7 @@ deparse_spc <- function(x){
   for (i in seq_along(x)){
     if (length(x[[i]]) > 1){
       str <- paste(x[[i]], collapse = " ")
-      if (nchar(str) > 115){  # strings should be no longer than 130 
+      if (nchar(str) > 115){  # strings should be no longer than 130
         str <- paste(strwrap(str, width = 115), collapse = "\n  ")
       }
       # put brackets around several elements
@@ -47,9 +47,9 @@ write_ts_dat <- function(x, file = "data.dat"){
   # Write a "ts" object to a .dat file
   #
   # Uses the X13-ARIMA-SEATS "datevalue" format.
-  # 
+  #
   # x  a "ts" object
-  # 
+  #
   # WriteDatavalue(austres, file = "data.dat")
 
   stopifnot(inherits(x, "ts"))
@@ -57,9 +57,9 @@ write_ts_dat <- function(x, file = "data.dat"){
   year <- floor(time(x) + 10e-4)
   per <- cycle(x)
   data <- cbind(year, per, x)
-  
-  
-  write.table(data, file = file, sep = " ", 
+
+
+  write.table(data, file = file, sep = " ",
               row.names = FALSE,
               col.names = FALSE)
 
@@ -68,26 +68,26 @@ write_ts_dat <- function(x, file = "data.dat"){
 
 as.character.arima <- function(x){
   # converts a numeric arima model to a character string
-  # 
+  #
   # x  numeric or character,  "ts" object
-  # 
+  #
   # WriteDatavalue(austres, file = "data.dat")
-  
+
   if (!class(x) %in% c("numeric", "character")){
     stop("arima.model: must be numeric or character", call. = FALSE)
   }
-  
+
   if (is.numeric(x)){
     if (length(x) == 6){
-      z <- paste0("(", 
-                  paste(x[1:3], collapse = " "), 
+      z <- paste0("(",
+                  paste(x[1:3], collapse = " "),
                   ")(",
                   paste(x[4:6], collapse = " "),
                   ")"
       )
     } else if (length(x) == 3){
-      z <- paste0("(", 
-                  paste(x[1:3], collapse = " "), 
+      z <- paste0("(",
+                  paste(x[1:3], collapse = " "),
                   ")"
       )
     } else {

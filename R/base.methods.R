@@ -7,11 +7,11 @@ print.seas <- function(x, ...){
   #   x:           an object of class "seas"
   #   ...:         further arguments, not used
   #
-  # Returns: 
+  # Returns:
   #   prints the object with print.lm as a side effect
-  
+
   x$coefficients <- coef(x)  # make default method for coef working
-  
+
   # convert to class "lm" and use the corresponding method
   attr(x, "class") <- "lm"
   print(x, ...)

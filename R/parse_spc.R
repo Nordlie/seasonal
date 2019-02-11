@@ -1,7 +1,7 @@
 
-parse_spc <- function(txt){  
+parse_spc <- function(txt){
   # parse text of an X-13 spc file
-  # 
+  #
   # text  character vector
   #
   # return "spclist" object
@@ -28,13 +28,13 @@ parse_spc <- function(txt){
   cl <- gregexpr("\\}", txt)[[1]]
 
   z0 <- Map(substr, x = txt, start = op + 1, stop = cl - 1)
-  
+
   # trim spaces
   z0 <- lapply(z0, function(e) gsub("^ +| +$", "", e))
 
   nam <- Map(substr, x = txt, start = c(1, cl[-length(cl)] + 1),
    stop = op - 1)
-  
+
   nam <- gsub("\\n", "", nam)
   nam <- gsub("^ +| +$", "", nam)
 
@@ -43,24 +43,24 @@ parse_spc <- function(txt){
 
 
   names(z0) <- nam
-  
+
   # # separate individual specs
   # z0 <- list()
   # for (i in 1:length(op)){
   #   # content in the curly braces (spec)
-  #   z0[[i]] <- substr(txt, start = (op[i] + 1), stop = (cl[i] - 1))  
-    
+  #   z0[[i]] <- substr(txt, start = (op[i] + 1), stop = (cl[i] - 1))
+
   #   # name of the spec
   #   # start.name <- ifelse(i == 1, 1, cl[i - 1] + 1)
   #   # name.i <- substr(txt, start = start.name, stop = (op[i] - 1))
-  #   # names(z0)[i] <- gsub(" ","", name.i) 
+  #   # names(z0)[i] <- gsub(" ","", name.i)
   # }
-  
+
 
   # parse each element
-  z <- lapply(z0, parse_singlespc) 
+  z <- lapply(z0, parse_singlespc)
   class(z) <- c("spclist", "list")
-  
+
   z
 }
 
@@ -73,7 +73,7 @@ parse_singlespc <- function(txt){
   # returns a named list the arguments
   #
   # requires tidyup_arg
-  
+
   # e.g.
   # txt <- ("\n  function=auto\n  savelog=autotransform  \n")
   # txt <- ("\n  savelog=peaks\t\n")
@@ -83,7 +83,7 @@ parse_singlespc <- function(txt){
 
   # txt <- "\nmaxlead=24 print=none"
   # positions of curly braces (ignore subsequent bracktets form arima model)
-  
+
   # parse_singlespc("\n  noadmiss = yes\n  save = (s10 s11 s12 s13 s16 s18)\n")
   # parse_singlespc("\n  aictest = (td easter)\n")
   # parse_singlespc("\n\n")
@@ -146,7 +146,7 @@ parse_singlespc <- function(txt){
 
   z <- as.list(arg)
   names(z) <- nam
-  
+
   # invoke tidyup_arg, but not for the 'model' argument
   z[names(z) != "model"] <- lapply(z[names(z) != "model"], tidyup_arg)
 
@@ -163,12 +163,12 @@ tidyup_arg <- function(x){
   # x   character vector of length 1
   #
   # returns a character string
-  
+
   stopifnot(length(x) == 1)
-  
+
   # remove curved brackets
   x.nb <- gsub("[\\(\\)]", " ", x)
-  
+
   # split along spaces (if not double quoted)
   if (!grepl('[\\"].*[\\"]', x.nb)){
     z <- strsplit(x.nb, '\\s+')[[1]]
@@ -176,7 +176,7 @@ tidyup_arg <- function(x){
   } else {
     z <- x.nb
   }
-  
+
   # convert to numeric if possible
   try.numeric <- suppressWarnings(as.numeric(z))
   if (!any(is.na(try.numeric))){
@@ -185,7 +185,7 @@ tidyup_arg <- function(x){
       z <- NULL
     }
   }
-  
+
   z
 }
 
